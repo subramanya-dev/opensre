@@ -62,6 +62,7 @@ DEFAULT_ALERTMANAGER_URL = "http://alertmanager:9093"
 DEFAULT_DISCORD_DEVELOPER_APPLICATIONS_URL = "https://discord.com/developers/applications"
 DEFAULT_SPLUNK_URL = "https://splunk.corp.com:8089"
 DEFAULT_OPENSEARCH_CLUSTER_URL = "https://my-cluster.us-east-1.es.amazonaws.com"
+DEFAULT_GITHUB_MCP_SERVER_NAME = "github-mcp-server"
 
 # Re-export build_demo_action_response from validation as a stable module-level
 # attribute. The wrapper indirection (instead of `from x import y`) is
@@ -997,7 +998,7 @@ def _configure_github_mcp() -> tuple[str, str]:
         if mode == "stdio":
             command = _prompt_value(
                 "GitHub MCP command",
-                default=_string_value(credentials.get("command"), "github-mcp-server"),
+                default=_string_value(credentials.get("command"), DEFAULT_GITHUB_MCP_SERVER_NAME),
             )
             args_raw = _prompt_value(
                 "GitHub MCP args",
