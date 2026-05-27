@@ -53,7 +53,15 @@ DEFAULT_OPENCLAW_MCP_COMMAND = "openclaw"
 DEFAULT_OPENCLAW_MCP_ARGS = ("mcp", "serve")
 DEFAULT_SENTRY_URL = "https://sentry.io"
 DEFAULT_GITLAB_BASE_URL = "https://gitlab.com/api/v4"
-
+DEFAULT_CORALOGIX_URL = "https://api.coralogix.com"
+DEFAULT_NOTION_INTEGRATIONS_URL = "https://www.notion.so/my-integrations"
+DEFAULT_ATLASSIAN_API_TOKENS_URL = "https://id.atlassian.com/manage-profile/security/api-tokens"
+DEFAULT_ATLASSIAN_SITE_URL = "https://myteam.atlassian.net"
+DEFAULT_BETTERSTACK_CONNECT_URL = "https://eu-nbg-2-connect.betterstackdata.com"
+DEFAULT_ALERTMANAGER_URL = "http://alertmanager:9093"
+DEFAULT_DISCORD_DEVELOPER_APPLICATIONS_URL = "https://discord.com/developers/applications"
+DEFAULT_SPLUNK_URL = "https://splunk.corp.com:8089"
+DEFAULT_OPENSEARCH_CLUSTER_URL = "https://my-cluster.us-east-1.es.amazonaws.com"
 
 # Re-export build_demo_action_response from validation as a stable module-level
 # attribute. The wrapper indirection (instead of `from x import y`) is
@@ -817,7 +825,7 @@ def _configure_coralogix() -> tuple[str, str]:
         )
         base_url = _prompt_value(
             "Coralogix API URL",
-            default=_string_value(credentials.get("base_url"), "https://api.coralogix.com"),
+            default=_string_value(credentials.get("base_url"), DEFAULT_CORALOGIX_URL),
         )
         application_name = _prompt_value(
             "Coralogix application name (optional)",
@@ -1303,7 +1311,7 @@ def _configure_sentry() -> tuple[str, str]:
 def _configure_notion() -> tuple[str, str]:
     _, credentials = _integration_defaults("notion")
     _console.print("\n[bold]Notion Integration[/bold]")
-    _console.print("Create an internal integration at https://www.notion.so/my-integrations")
+    _console.print(f"Create an internal integration at {DEFAULT_NOTION_INTEGRATIONS_URL}")
     _console.print("then share your target database with the integration.\n")
 
     while True:
@@ -1327,11 +1335,11 @@ def _configure_jira() -> tuple[str, str]:
     _, credentials = _integration_defaults("jira")
     _console.print("\n[bold]Jira Integration[/bold]")
     _console.print(
-        "Create an API token at https://id.atlassian.com/manage-profile/security/api-tokens\n"
+        f"Create an API token at {DEFAULT_ATLASSIAN_API_TOKENS_URL}\n"
     )
 
     while True:
-        base_url = _prompt_value("Jira base URL (e.g. https://myteam.atlassian.net)")
+        base_url = _prompt_value(f"Jira base URL (e.g. {DEFAULT_ATLASSIAN_SITE_URL})")
         email = _prompt_value("Jira account email")
         api_token = _prompt_value("Jira API token", secret=True)
         project_key = _prompt_value("Jira project key (e.g. OPS)")
@@ -1429,7 +1437,7 @@ def _configure_betterstack() -> tuple[str, str]:
     _, credentials = _integration_defaults("betterstack")
     while True:
         query_endpoint = _prompt_value(
-            "Better Stack SQL query endpoint (e.g. https://eu-nbg-2-connect.betterstackdata.com)",
+            f"Better Stack SQL query endpoint (e.g. {DEFAULT_BETTERSTACK_CONNECT_URL})",
             default=_string_value(credentials.get("query_endpoint")),
         )
         username = _prompt_value(
@@ -1477,7 +1485,7 @@ def _configure_alertmanager() -> tuple[str, str]:
     _, credentials = _integration_defaults("alertmanager")
     while True:
         base_url = _prompt_value(
-            "Alertmanager URL (e.g. http://alertmanager:9093)",
+            f"Alertmanager URL (e.g. {DEFAULT_ALERTMANAGER_URL})",
             default=_string_value(credentials.get("base_url")),
         )
         if not base_url:
@@ -1585,7 +1593,7 @@ def _configure_discord() -> tuple[str, str]:
     _, credentials = _integration_defaults("discord")
     _console.print(
         "\n[bold]Discord Integration[/bold]\n"
-        f"[{SECONDARY}]Get your credentials from https://discord.com/developers/applications.[/]\n"
+        f"[{SECONDARY}]Get your credentials from {DEFAULT_DISCORD_DEVELOPER_APPLICATIONS_URL}.[/]\n"
     )
     while True:
         bot_token = _prompt_value(
@@ -1685,7 +1693,7 @@ def _configure_splunk() -> tuple[str, str]:
     _, credentials = _integration_defaults("splunk")
     while True:
         base_url = _prompt_value(
-            "Splunk REST API base URL (e.g. https://splunk.corp.com:8089)",
+            f"Splunk REST API base URL (e.g. {DEFAULT_SPLUNK_URL})",
             default=_string_value(credentials.get("base_url")),
         )
         token = _prompt_value(
@@ -1747,7 +1755,7 @@ def _configure_opensearch() -> tuple[str, str]:
     _, credentials = _integration_defaults("opensearch")
     while True:
         url = _prompt_value(
-            "OpenSearch URL (e.g. https://my-cluster.us-east-1.es.amazonaws.com)",
+            f"OpenSearch URL (e.g. {DEFAULT_OPENSEARCH_CLUSTER_URL})",
             default=_string_value(credentials.get("url")),
         )
         auth_choice = _choose(
