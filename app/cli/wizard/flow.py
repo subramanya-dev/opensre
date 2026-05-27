@@ -64,6 +64,7 @@ DEFAULT_SPLUNK_URL = "https://splunk.corp.com:8089"
 DEFAULT_OPENSEARCH_CLUSTER_URL = "https://my-cluster.us-east-1.es.amazonaws.com"
 DEFAULT_GITHUB_MCP_SERVER_NAME = "github-mcp-server"
 
+
 # Re-export build_demo_action_response from validation as a stable module-level
 # attribute. The wrapper indirection (instead of `from x import y`) is
 # preserved so the function remains patchable via monkeypatch.setattr(flow,
@@ -1335,9 +1336,7 @@ def _configure_notion() -> tuple[str, str]:
 def _configure_jira() -> tuple[str, str]:
     _, credentials = _integration_defaults("jira")
     _console.print("\n[bold]Jira Integration[/bold]")
-    _console.print(
-        f"Create an API token at {DEFAULT_ATLASSIAN_API_TOKENS_URL}\n"
-    )
+    _console.print(f"Create an API token at {DEFAULT_ATLASSIAN_API_TOKENS_URL}\n")
 
     while True:
         base_url = _prompt_value(f"Jira base URL (e.g. {DEFAULT_ATLASSIAN_SITE_URL})")
